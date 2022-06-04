@@ -250,7 +250,7 @@ $.ajax({
 });
 
 
-/*
+
 var pedido = new Pedido();
 $("#cantidad").keypress(soloNumeros);
 $("#validar-edad").keypress(soloNumeros);
@@ -260,6 +260,8 @@ $("#pedidos").on("click", function () {
   $("html, body").animate({ scrollTop: posicion }, 2000);
 });
 
+
+/*
 $(document).ready(() => {
   preguntarEdad();
 });
