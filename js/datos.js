@@ -1,4 +1,4 @@
-var productos= [
+let productos= [
   {
     "id": 1,
       "nombre": "Bife Ancho",

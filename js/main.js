@@ -1,8 +1,3 @@
-function Cliente(nombre, telefono, direccion) {
-  this.nombre = nombre;
-  this.telefono = telefono;
-  this.direccion = direccion;
-}
 
 function Articulo(id, nombre, precio, destacado, imagen) {
   this.id = id;
@@ -17,9 +12,6 @@ function Pedido() {
   this.cliente = undefined;
   this.items = [];
   this.total = 0;
-  var fecha = new Date();
-  fecha = fecha.getDate() + "/" + fecha.getMonth() + "/" + fecha.getFullYear();
-  this.fecha = fecha;
 }
 
 
@@ -39,14 +31,14 @@ function cargarDatos(productos, articulos) {
       generarHtmlProducto(articulo);
     }
     cargarSelect(articulo);
-    if (indice == 0) {
+    if (indice === 0) {
       $("#precio").val(articulo.precio);
     }
   });
 }
 
 function generarHtmlProducto(producto) {
-  var html = `<div class="col-sm col-md-6 col-xl-3 bot1">
+  let html = `<div class="col-sm col-md-6 col-xl-3 bot1">
     <img src="${producto.imagen}">
     <div class="description">
       <div class="product-name">
@@ -64,19 +56,19 @@ function generarHtmlProducto(producto) {
 function seleccionarProducto(productoId) {
   let posicion = $("#customer").offset().top;
   $("html, body").animate({ scrollTop: posicion }, 1000);
-  $("#brebajes").val(productoId).change();
+  $("#cortes").val(productoId).change();
 }
 
 function cargarSelect(producto) {
-  var option = `<option value="${producto.id}">${producto.nombre}</option>`;
-  $("#brebajes").append(option);
+  let option = `<option value="${producto.id}">${producto.nombre}</option>`;
+  $("#cortes").append(option);
 }
 
 function agregarPrecio() {
   $("#error").html("");
-  var valor = $("#brebajes option:selected").val();
-  var encontrado = articulos.find((articulo) => {
-    return articulo.id == valor;
+  let valor = $("#cortes option:selected").val();
+  let encontrado = articulos.find((articulo) => {
+    return articulo.id === valor;
   });
   $("#precio").val(encontrado.precio);
   $("#cantidad").val("");
@@ -84,18 +76,18 @@ function agregarPrecio() {
 }
 
 function soloNumeros(event) {
-  var key = event.keyCode;
+  let key = event.keyCode;
   if (key < 48 || key > 57) {
     event.preventDefault();
   }
 }
 
 function calcularSubtotal() {
-  var cantidad = $("#cantidad").val();
+  let cantidad = $("#cantidad").val();
   if (cantidad > 0) {
     $("#error").html("");
-    var precio = $("#precio").val();
-    var subtotal = parseInt(cantidad) * parseInt(precio);
+    let precio = $("#precio").val();
+    let subtotal = parseInt(cantidad) * parseInt(precio);
     $("#subtotal").val(subtotal);
   } else {
     $("#error").html("Debe ingresar cantidad");
@@ -104,15 +96,15 @@ function calcularSubtotal() {
 }
 
 function agregarProducto() {
-  var cantidad = parseInt($("#cantidad").val());
+  let cantidad = parseInt($("#cantidad").val());
   if (cantidad > 0) {
     $("#error").html("");
-    var itemId = parseInt($("#brebajes").val());
+    let itemId = parseInt($("#cortes").val());
 
-    var indiceYaExiste = pedido.items.findIndex((item) => {
-      return item.itemId == itemId;
+    let indiceYaExiste = pedido.items.findIndex((item) => {
+      return item.itemId === itemId;
     });
-    if (indiceYaExiste == -1) {
+    if (indiceYaExiste === -1) {
       pedido.items.push({ itemId, cantidad });
     } else {
       pedido.items[indiceYaExiste].cantidad += cantidad;
@@ -126,7 +118,7 @@ function agregarProducto() {
 }
 
 function dibujarPedido() {
-  var tablaHeader = `<table class="table table-hover table-dark finalizar-pedido">
+  let tablaHeader = `<table class="table table-hover table-dark finalizar-pedido">
   <thead>
     <tr class="items">
       <th scope="col">#</th>
@@ -138,15 +130,15 @@ function dibujarPedido() {
     </tr>
   </thead>
   <tbody>`;
-  var tablaBody = "";
-  var total = 0;
-  var iconoEliminar = `<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  let tablaBody = "";
+  let total = 0;
+  let iconoEliminar = `<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
     <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
     <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
   </svg>`;
   pedido.items.forEach((item, indice) => {
-    var articulo = articulos.find((articulo) => {
-      return item.itemId == articulo.id;
+    let articulo = articulos.find((articulo) => {
+      return item.itemId === articulo.id;
     });
     tablaBody += `<tr>
       <th scope="row">${indice + 1}</th>
@@ -158,7 +150,7 @@ function dibujarPedido() {
     </tr>`;
     total += parseInt(item.cantidad) * parseInt(articulo.precio);
   });
-  var tablaFooter = `<tr>
+  let tablaFooter = `<tr>
     <td colspan="3"></td>
     <td class="total">TOTAL</td>
     <td class="monto">$${total}</td>
@@ -166,7 +158,7 @@ function dibujarPedido() {
   </tr>
   </tbody>
   </table>`;
-  var formCliente = `<div class="row">
+  let formCliente = `<div class="row">
       <div class="col-sm column-1">
         Nombre y Apellido:
       </div>
@@ -228,7 +220,7 @@ function finalizarPedido() {
     return;
   }
   $("#error-cliente").html("");
-  var mensaje = `Muchas gracias por tu compra ${$(
+  let mensaje = `Muchas gracias por tu compra ${$(
     "#name"
   ).val()}, estaremos enviando tu pedido a ${$(
     "#adress"
@@ -240,7 +232,7 @@ function finalizarPedido() {
 }
 
 /*-----MAIN-----*/
-var articulos = [];
+let articulos = [];
 $.ajax({
   url: "./js/datos.json",
   dataType: "json",
@@ -251,9 +243,9 @@ $.ajax({
 
 
 
-var pedido = new Pedido();
+let pedido = new Pedido();
 $("#cantidad").keypress(soloNumeros);
-$("#validar-edad").keypress(soloNumeros);
+
 
 $("#pedidos").on("click", function () {
   let posicion = $("#customer").offset().top;
@@ -261,8 +253,12 @@ $("#pedidos").on("click", function () {
 });
 
 
-/*
-$(document).ready(() => {
-  preguntarEdad();
-});
-*/
+
+
+
+/*localStorage.clear()*/
+
+guardar_localstorage()
+function guardar_localstorage (){
+  localStorage.setItem("pedido", JSON.stringify(pedido.items))
+}
