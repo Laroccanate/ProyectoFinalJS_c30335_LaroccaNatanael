@@ -232,9 +232,6 @@ function finalizarPedido() {
   $("#form-cliente").html("");
 }
 
-
-
-
 /*-----MAIN-----*/
 let articulos = [];
 $.ajax({
@@ -260,7 +257,9 @@ function guardar_localstorage() {
   localStorage.setItem("pedidoLS", JSON.stringify(pedido))
 }
 function cargarPedidos() {
-  pedido = JSON.parse(localStorage.getItem(`pedidoLS`))
+  if (JSON.parse(localStorage.getItem(`pedidoLS`)) != null) {
+    pedido = JSON.parse(localStorage.getItem(`pedidoLS`))
+  }
 }
 cargarPedidos()
 if (pedido.items.length > 0) {
