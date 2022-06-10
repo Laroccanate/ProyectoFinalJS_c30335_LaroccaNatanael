@@ -1,4 +1,3 @@
-
 function Articulo(id, nombre, precio, destacado, imagen) {
   this.id = id;
   this.nombre = nombre;
@@ -18,7 +17,7 @@ function Pedido() {
 
 function cargarDatos(productos, articulos) {
   productos.forEach((producto, indice) => {
-    var articulo = new Articulo(
+    let articulo = new Articulo(
       producto.id,
       producto.nombre,
       producto.precio,
@@ -106,6 +105,7 @@ function agregarProducto() {
     });
     if (indiceYaExiste === -1) {
       pedido.items.push({ itemId, cantidad });
+      guardar_localstorage();
     } else {
       pedido.items[indiceYaExiste].cantidad += cantidad;
     }
@@ -203,6 +203,7 @@ function dibujarPedido() {
 
 function eliminarItem(indice) {
   pedido.items.splice(indice, 1);
+  guardar_localstorage()
   dibujarPedido();
 }
 
@@ -231,6 +232,9 @@ function finalizarPedido() {
   $("#form-cliente").html("");
 }
 
+
+
+
 /*-----MAIN-----*/
 let articulos = [];
 $.ajax({
@@ -240,8 +244,6 @@ $.ajax({
     cargarDatos(response, articulos);
   },
 });
-
-
 
 let pedido = new Pedido();
 $("#cantidad").keypress(soloNumeros);
@@ -253,12 +255,16 @@ $("#pedidos").on("click", function () {
 });
 
 
-
-
-
 /*localStorage.clear()*/
-
-guardar_localstorage()
-function guardar_localstorage (){
-  localStorage.setItem("pedido", JSON.stringify(pedido.items))
+function guardar_localstorage() {
+  localStorage.setItem("pedidoLS", JSON.stringify(pedido))
+}
+function cargarPedidos() {
+  pedido = JSON.parse(localStorage.getItem(`pedidoLS`))
+}
+cargarPedidos()
+if (pedido.items.length > 0) {
+  setTimeout(()=>{
+    dibujarPedido();
+  }, 100)
 }
