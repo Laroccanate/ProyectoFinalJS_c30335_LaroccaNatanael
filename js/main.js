@@ -67,7 +67,7 @@ function agregarPrecio() {
   $("#error").html("");
   let valor = $("#cortes option:selected").val();
   let encontrado = articulos.find((articulo) => {
-    return articulo.id === valor;
+    return articulo.id == valor;
   });
   $("#precio").val(encontrado.precio);
   $("#cantidad").val("");
